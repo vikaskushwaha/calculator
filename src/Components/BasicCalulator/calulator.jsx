@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
+import { TbReload } from "react-icons/tb";
 import { useState } from "react";
+import Reaload from "./reload";
 import Pedmas from "../logic/pedmas";
+import PreviousResult from "./previousResult";
 function MainCalDesign() {
-    const [number, SetNumber] = useState('')
+    let [number, SetNumber] = useState('')
     const [result, SetResult] = useState(0)
+    let [showHistroy, SetHistroy] = useState(false);
     function handleClick(num) {
         SetNumber(number + num);
     }
@@ -14,21 +18,30 @@ function MainCalDesign() {
     }
     function equalTo(num) {
         let str = number;
-        // console.log(Pedmas(str));
-        SetResult(Pedmas(str));
+        // SetNumber(number + num)
+        let x = Pedmas(str)
+        SetResult(x);
+        PreviousResult(str, x)
+
     }
 
+    function reload() {
+        SetHistroy(prevShowHistory => !prevShowHistory)
+    }
     return (
         <div className="flex items-center flex-col gap-y-6 align-middle  justify-center content-center">
             <h1 className="text-lg text-sky-400">Calulator</h1>
             <div className="flex flex-col items-center">
-                <div className="flex flex-col  border p-2">
+                <div className="flex flex-col  border p-2 static">
+                    <i className="z-10 " onClick={() => reload()}>
+                        <TbReload />
+                    </i>
+                    {showHistroy && <Reaload />}
                     <div className="flex flex-row-reverse w-80 h-10 content-center ">
                         {number}
                     </div>
                     <div className="flex flex-row-reverse font-bold w-80">{result}</div>
                 </div>
-
 
                 <table className=" table-auto border-spacing-4 border-separate" >
                     <tbody className="flex flex-col gap-y-4">
